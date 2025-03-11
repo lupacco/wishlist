@@ -1,13 +1,15 @@
 package com.labs.wishlist.services.impl;
 
+import com.labs.wishlist.constants.ErrorCodes;
 import com.labs.wishlist.entities.Wishlist;
-import com.labs.wishlist.exceptions.WishlistMaxLimitException;
 import com.labs.wishlist.exceptions.WishlistNotFoundException;
 import com.labs.wishlist.repositories.WishlistRepository;
 import com.labs.wishlist.services.WishlistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -20,18 +22,16 @@ public class WishlistServiceImpl implements WishlistService {
     public Wishlist addProductToWishlist(String clientId, String productId) {
 
         Wishlist wishlist = wishlistRepository.findByClientId(clientId)
-                .orElse(new Wishlist());
+                .orElse(Wishlist.builder()
+                        .clientId(clientId)
+                        .productsIds(new ArrayList<>())
+                        .build());
 
-        log.info("tamo aqui {}", wishlist);
-        wishlist.setClientId(clientId);
 
+        wishlist.checkWishlistLimit();
 
-        if (wishlist.getProductsIds().size() >= 20) {
-            throw new WishlistMaxLimitException("A Wishlist atingiu o limite de 20 produtos.");
-        }
-
-        if (!wishlist.getProductsIds().contains(productId)) {
-            wishlist.getProductsIds().add(productId);
+        if (!wishlist.containsProduct(productId)) {
+            wishlist.addProduct(productId);
             wishlistRepository.save(wishlist);
         }
 
@@ -41,16 +41,17 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     public void removeProductFromWishlist(String clientId, String productId) {
         Wishlist wishlist = wishlistRepository.findByClientId(clientId)
-                .orElseThrow(() -> new WishlistNotFoundException("Wishlist not found.")); //todo trocar por padrao de mensagem
+                .orElseThrow(() -> new WishlistNotFoundException(ErrorCodes.WISHLIST_NOT_FOUND.getMessage()));
 
-        wishlist.getProductsIds().remove(productId);
+        wishlist.removeProduct(productId);
+
         wishlistRepository.save(wishlist);
     }
 
     @Override
     public Wishlist getWishlist(String clientId) {
         return wishlistRepository.findByClientId(clientId)
-                .orElseThrow(() -> new WishlistNotFoundException("Wishlist not found."));
+                .orElseThrow(() -> new WishlistNotFoundException(ErrorCodes.WISHLIST_NOT_FOUND.getMessage()));
     }
 
     @Override
@@ -58,6 +59,8 @@ public class WishlistServiceImpl implements WishlistService {
         Wishlist wishlist = wishlistRepository.findByClientId(clientId)
                 .orElse(null);
 
-        return wishlist != null && wishlist.getProductsIds().contains(productId);
+        if(wishlist == null) throw new WishlistNotFoundException(ErrorCodes.WISHLIST_NOT_FOUND.getMessage());
+
+        return wishlist.getProductsIds().contains(productId);
     }
 }
