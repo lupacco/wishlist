@@ -9,8 +9,7 @@ public enum ErrorCodes {
     WISHLIST_NOT_FOUND("404", "Wishlist not found."),
     WISHLIST_MAX_LIMIT("409", "Wishlist reached max limit of products."),
     PRODUCT_NOT_FOUND("404", "Product not found."),
-    MISSING_CLIENT_ID("400", "ClientId's wishlist is missing."),
-    MISSING_PRODUCT_ID("400", "ProductId is missing.");
+    BAD_REQUEST("400", "ClientId or ProductId are missing.");
 
     private final String code;
     private final String message;

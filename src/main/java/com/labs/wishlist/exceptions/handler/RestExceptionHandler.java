@@ -60,8 +60,8 @@ public class RestExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ExceptionResponse> handleNoResourceFoundException(HttpServletRequest request, NoResourceFoundException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionResponse.builder()
-                .code(ErrorCodes.WISHLIST_MAX_LIMIT.getCode())
-                .message(ErrorCodes.WISHLIST_MAX_LIMIT.getMessage())
+                .code(ErrorCodes.BAD_REQUEST.getCode())
+                .message(ErrorCodes.BAD_REQUEST.getMessage())
                 .instance(request.getRequestURI())
                 .timestamp(LocalDateTime.now())
                 .build());
