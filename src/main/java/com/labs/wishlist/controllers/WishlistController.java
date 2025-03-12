@@ -1,7 +1,7 @@
 package com.labs.wishlist.controllers;
 
+import com.labs.wishlist.dto.WishlistContainsProductResponseDTO;
 import com.labs.wishlist.dto.WishlistResponseDTO;
-import com.labs.wishlist.entities.Wishlist;
 import com.labs.wishlist.services.WishlistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,10 +48,10 @@ public class WishlistController {
     }
 
     @GetMapping("/{clientId}/contains/{productId}")
-    public ResponseEntity<Boolean> isProductInWishlist(@PathVariable String clientId, @PathVariable String productId) {
+    public ResponseEntity<WishlistContainsProductResponseDTO> isProductInWishlist(@PathVariable String clientId, @PathVariable String productId) {
         log.info("WishlistController.isProductInWishlist - start - clientId: {} and productId: {}", clientId, productId);
 
-        Boolean response = wishlistService.isProductInWishlist(clientId, productId);
+        WishlistContainsProductResponseDTO response = wishlistService.isProductInWishlist(clientId, productId);
 
         log.info("WishlistController.isProductInWishlist - end - clientId: {} and productId: {}", clientId, productId);
         return ResponseEntity.status(HttpStatus.OK).body(response);

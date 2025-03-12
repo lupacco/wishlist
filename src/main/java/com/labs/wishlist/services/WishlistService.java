@@ -1,5 +1,6 @@
 package com.labs.wishlist.services;
 
+import com.labs.wishlist.dto.WishlistContainsProductResponseDTO;
 import com.labs.wishlist.dto.WishlistResponseDTO;
 import com.labs.wishlist.entities.Wishlist;
 
@@ -11,5 +12,5 @@ public interface WishlistService {
 
     WishlistResponseDTO getWishlist(String clientId);
 
-    boolean isProductInWishlist(String clientId, String productId);
+    WishlistContainsProductResponseDTO isProductInWishlist(String clientId, String productId);
 }

@@ -1,6 +1,7 @@
 package com.labs.wishlist.services.impl;
 
 import com.labs.wishlist.constants.ErrorCodes;
+import com.labs.wishlist.dto.WishlistContainsProductResponseDTO;
 import com.labs.wishlist.dto.WishlistResponseDTO;
 import com.labs.wishlist.entities.Wishlist;
 import com.labs.wishlist.exceptions.WishlistNotFoundException;
@@ -62,7 +63,7 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
     @Override
-    public boolean isProductInWishlist(String clientId, String productId) {
+    public WishlistContainsProductResponseDTO isProductInWishlist(String clientId, String productId) {
         log.info("WishlistServiceImpl.isProductInWishlist - start - clientId: {} and productId: {}", clientId, productId);
         Wishlist wishlist = wishlistRepository.findByClientId(clientId)
                 .orElse(null);
@@ -70,6 +71,6 @@ public class WishlistServiceImpl implements WishlistService {
         if(wishlist == null) throw new WishlistNotFoundException(ErrorCodes.WISHLIST_NOT_FOUND.getMessage());
 
         log.info("WishlistServiceImpl.isProductInWishlist - end - clientId: {} and productId: {}", clientId, productId);
-        return wishlist.getProductsIds().contains(productId);
+        return new WishlistContainsProductResponseDTO(wishlist.getProductsIds().contains(productId));
     }
 }

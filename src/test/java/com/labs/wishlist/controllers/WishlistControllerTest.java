@@ -1,5 +1,6 @@
 package com.labs.wishlist.controllers;
 
+import com.labs.wishlist.dto.WishlistContainsProductResponseDTO;
 import com.labs.wishlist.dto.WishlistResponseDTO;
 import com.labs.wishlist.factory.WishlistFactory;
 import com.labs.wishlist.services.impl.WishlistServiceImpl;
@@ -81,12 +82,12 @@ public class WishlistControllerTest {
         String productId = "123";
 
         BDDMockito.when(wishlistService.isProductInWishlist(any(), any()))
-                .thenReturn(true);
+                .thenReturn(WishlistFactory.createTrueWishlistContainsProductDTO());
 
-        boolean response = wishlistController.isProductInWishlist(clientId, productId).getBody();
+        WishlistContainsProductResponseDTO response = wishlistController.isProductInWishlist(clientId, productId).getBody();
 
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response).isEqualTo(true);
+        Assertions.assertThat(response.containsProduct()).isEqualTo(true);
     }
 
     @Test
@@ -95,11 +96,11 @@ public class WishlistControllerTest {
         String productId = "123";
 
         BDDMockito.when(wishlistService.isProductInWishlist(any(), any()))
-                .thenReturn(false);
+                .thenReturn(WishlistFactory.createFalseWishlistContainsProductDTO());
 
-        boolean response = wishlistController.isProductInWishlist(clientId, productId).getBody();
+        WishlistContainsProductResponseDTO response = wishlistController.isProductInWishlist(clientId, productId).getBody();
 
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response).isEqualTo(false);
+        Assertions.assertThat(response.containsProduct()).isEqualTo(false);
     }
 }

@@ -1,6 +1,7 @@
 package com.labs.wishlist.services;
 
 import com.labs.wishlist.constants.ErrorCodes;
+import com.labs.wishlist.dto.WishlistContainsProductResponseDTO;
 import com.labs.wishlist.dto.WishlistResponseDTO;
 import com.labs.wishlist.exceptions.ProductNotFoundException;
 import com.labs.wishlist.exceptions.WishlistMaxLimitException;
@@ -142,10 +143,10 @@ public class WishlistServicesTest {
         BDDMockito.when(wishlistRepository.findByClientId(any()))
                 .thenReturn(Optional.of(WishlistFactory.createValidWishlistWithOneProduct(clientId)));
 
-        boolean result = wishlistService.isProductInWishlist(clientId, productId);
+        WishlistContainsProductResponseDTO result = wishlistService.isProductInWishlist(clientId, productId);
 
         verify(wishlistRepository, times(1)).findByClientId(clientId);
-        Assertions.assertThat(result).isEqualTo(true);
+        Assertions.assertThat(result.containsProduct()).isEqualTo(true);
 
     }
 

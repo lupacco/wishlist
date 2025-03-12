@@ -1,5 +1,6 @@
 package com.labs.wishlist.factory;
 
+import com.labs.wishlist.dto.WishlistContainsProductResponseDTO;
 import com.labs.wishlist.dto.WishlistResponseDTO;
 import com.labs.wishlist.entities.Wishlist;
 
@@ -57,4 +58,11 @@ public class WishlistFactory {
                 .build();
     }
 
+    public static WishlistContainsProductResponseDTO createTrueWishlistContainsProductDTO() {
+        return new WishlistContainsProductResponseDTO(true);
+    }
+
+    public static WishlistContainsProductResponseDTO createFalseWishlistContainsProductDTO() {
+        return new WishlistContainsProductResponseDTO(false);
+    }
 }
