@@ -1,4 +1,4 @@
-package com.labs.wishlist.exceptions.handler;
+package com.labs.wishlist.handler;
 
 import com.labs.wishlist.constants.ErrorCodes;
 import com.labs.wishlist.exceptions.ExceptionResponse;
@@ -38,7 +38,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(WishlistMaxLimitException.class)
-    public ResponseEntity<ExceptionResponse> handleWishListNotFoundException(HttpServletRequest request, WishlistMaxLimitException ex) {
+    public ResponseEntity<ExceptionResponse> handleWishlistMaxLimitException(HttpServletRequest request, WishlistMaxLimitException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ExceptionResponse.builder()
                 .code(ErrorCodes.WISHLIST_MAX_LIMIT.getCode())
                 .message(ErrorCodes.WISHLIST_MAX_LIMIT.getMessage())

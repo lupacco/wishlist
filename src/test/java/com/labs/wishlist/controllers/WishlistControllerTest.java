@@ -7,11 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @Slf4j
 public class WishlistControllerTest {
@@ -39,7 +42,7 @@ public class WishlistControllerTest {
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.clientId()).isEqualTo(clientId);
-        Assertions.assertThat(response.products().get(0)).isEqualTo(productId);
+        Assertions.assertThat(response.products().getFirst()).isEqualTo(productId);
         Assertions.assertThat(response.products()).hasSize(1);
 
     }
@@ -68,7 +71,7 @@ public class WishlistControllerTest {
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.clientId()).isEqualTo(clientId);
-        Assertions.assertThat(response.products().get(0)).isEqualTo(productId);
+        Assertions.assertThat(response.products().getFirst()).isEqualTo(productId);
         Assertions.assertThat(response.products()).hasSize(1);
     }
 
