@@ -8,6 +8,8 @@
 
 Adiciona um produto à wishlist de um cliente.
 
+**OBS**: _Aqui eu optei por escolher o status 200 para sucesso da requisição ao invés do 201, uma vez que esse endpoint não só cria uma wishlist como também adiciona produtos à ela_
+
 ### DELETE /v1/wishlist/{clientId}/remove/{productId}
 
 Remove um produto da wishlist de um cliente.
