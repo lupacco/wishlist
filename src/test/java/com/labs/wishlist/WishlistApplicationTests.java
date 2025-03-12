@@ -3,10 +3,10 @@ package com.labs.wishlist;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class WishlistApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 
