@@ -27,7 +27,7 @@ Retorna true ou false indicando se um produto está na wishlist do cliente.
 
 ## Como subir o ambiente
 
-## Este microsserviço utiliza MongoDB como banco de dados. Você pode rodar uma instância do MongoDB localmente usando docker-compose.
+### Este microsserviço utiliza MongoDB como banco de dados. Você pode rodar uma instância do MongoDB localmente usando docker-compose.
 
 Subindo o MongoDB com Docker
 
