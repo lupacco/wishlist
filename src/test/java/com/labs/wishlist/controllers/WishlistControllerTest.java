@@ -7,12 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @Slf4j
 public class WishlistControllerTest {
@@ -46,6 +45,18 @@ public class WishlistControllerTest {
     }
 
     @Test
+    void removeProductFromWishlist_WhenSuccessful(){
+        String clientId = "777";
+        String productId = "123";
+
+        BDDMockito.doNothing().when(wishlistService).removeProductFromWishlist(any(), any());
+
+        wishlistController.removeProduct(clientId, productId).getBody();
+
+        verify(wishlistService, times(1)).removeProductFromWishlist(clientId, productId);
+    }
+
+    @Test
     void getWishlist_WhenSuccessful(){
         String clientId = "777";
         String productId = "123";
@@ -59,5 +70,33 @@ public class WishlistControllerTest {
         Assertions.assertThat(response.clientId()).isEqualTo(clientId);
         Assertions.assertThat(response.products().get(0)).isEqualTo(productId);
         Assertions.assertThat(response.products()).hasSize(1);
+    }
+
+    @Test
+    void returnTrueForProductInWishlist_WhenSuccessful(){
+        String clientId = "777";
+        String productId = "123";
+
+        BDDMockito.when(wishlistService.isProductInWishlist(any(), any()))
+                .thenReturn(true);
+
+        boolean response = wishlistController.isProductInWishlist(clientId, productId).getBody();
+
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response).isEqualTo(true);
+    }
+
+    @Test
+    void returnFalseForProductIsNotInWishlist_WhenSuccessful(){
+        String clientId = "777";
+        String productId = "123";
+
+        BDDMockito.when(wishlistService.isProductInWishlist(any(), any()))
+                .thenReturn(false);
+
+        boolean response = wishlistController.isProductInWishlist(clientId, productId).getBody();
+
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response).isEqualTo(false);
     }
 }
